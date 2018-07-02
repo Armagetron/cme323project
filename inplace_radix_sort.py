@@ -1,10 +1,13 @@
+import copy
+
+
 def inPlaceRadixSort(data, l, k, start, end):
     if end - start < 10:
         tmp = data[start:end]
         tmp.sort()
         data[start:end] = tmp
         return data
-    histogram = countHistogram(data, l, k, p, start, end)
+    histogram = countHistogram(data, l, k, start, end)
     heads = [start]
     tails = [start + histogram[0]]
     for i in range(1, 10):
@@ -27,7 +30,7 @@ def inPlaceRadixSort(data, l, k, start, end):
 
     if l < k - 1:
         for i in range(10):
-            inPlaceRadixSort(data, l, k, p, starts[i], ends[i])
+            inPlaceRadixSort(data, l + 1, k, starts[i], ends[i])
     return data
 
 
