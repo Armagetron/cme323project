@@ -1,4 +1,4 @@
-from pathos.multiprocessing import ProcessingPool as Pool
+from pathos.multiprocessing import ProcessPool as Pool
 from multiprocessing import Process, Queue
 import copy
 
@@ -33,14 +33,15 @@ def paradis(data, l, k, p, start, end):
             heads[i] += 1
 
     if l < k - 1:
-        processes = []
-        queue = Queue()
+        # processes = []
+        # for i in range(10):
+        #     proc = Process(target=paradis, args=(data, l + 1, k, p, starts[i], ends[i]))
+        #     processes.append(proc)
+        #     proc.start()
+        # for proc in processes:
+        #     proc.join()
         for i in range(10):
-            proc = Process(target=paradis, args=(data, l, k, p, starts[i], ends[i]))
-            processes.append(proc)
-            proc.start()
-        for proc in processes:
-            proc.join()
+            paradis(data, l + 1, k, p, starts[i], ends[i])
     return data
 
 
@@ -57,7 +58,7 @@ def buildHistogram(data, l, k, p, start, end):
             j = end
         starts.append(i)
         ends.append(j)
-    individualCounts = Pool(p).map(countHistogram, [data] * 10, [l] * 10, [k] * 10, starts, ends)
+    individualCounts = Pool(nodes=p).map(countHistogram, [data] * 10, [l] * 10, [k] * 10, starts, ends)
     for counts in individualCounts:
         for i in range(10):
             totalCounts[i] += counts[i]
