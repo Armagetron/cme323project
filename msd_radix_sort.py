@@ -1,6 +1,9 @@
+from types import NoneType
+
+
 def msdRadixSort(data, l, maxDigits):
     if len(data) < 10:
-        return data.sort()
+        return sorted(data)
 
     radix = 10
     divisor = int(10 ** (maxDigits - l - 1))
